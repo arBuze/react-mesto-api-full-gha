@@ -1,0 +1,13 @@
+.photo-feed__like-btn {
+  width: 22px;
+  height: 19px;
+  background: #fff center/cover url(../../../images/like-button-not-act.svg);
+  border: none;
+  padding: 0;
+  transition: opacity .2s ease-out;
+}
+
+.photo-feed__like-btn:hover {
+  opacity: .5;
+  cursor: pointer;
+}

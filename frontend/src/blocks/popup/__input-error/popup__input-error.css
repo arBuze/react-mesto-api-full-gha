@@ -1,0 +1,13 @@
+.popup__input-error {
+  min-height: 30px;
+  font-size: 12px;
+  line-height: 15px;
+  color: #FF0000;
+  margin: 5px 0;
+  display: block;
+  opacity: 0;
+}
+
+.popup__input-error:nth-child(4){
+  margin-bottom: 20px;
+}

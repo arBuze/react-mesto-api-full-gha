@@ -1,0 +1,12 @@
+.profile__item {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media (min-width: 1024px) {
+  .profile__item {
+    justify-content: flex-start;
+  }
+}

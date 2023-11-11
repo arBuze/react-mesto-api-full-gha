@@ -1,0 +1,16 @@
+.photo-feed__del-btn {
+  width: 18px;
+  height: 19px;
+  background: rgba(0, 0, 0, 0) center/cover url(../../../images/delete-button.svg);
+  border: none;
+  position:absolute;
+  top: 20px;
+  right: 20px;
+  padding: 0;
+  transition: opacity .2s ease-out;
+}
+
+.photo-feed__del-btn:hover {
+  opacity: .6;
+  cursor: pointer;
+}
