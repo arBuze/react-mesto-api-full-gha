@@ -11,6 +11,6 @@
 
 IP-адрес 51.250.84.88
 
-Frontend https://...
+Frontend https://asid.mesto.nomoredomainsmonster.ru
 
-Backend https://...
+Backend https://api.asid.mesto.nomoredomainsmonster.ru
