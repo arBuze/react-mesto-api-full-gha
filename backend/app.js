@@ -18,7 +18,7 @@ const { limiter } = require('./utils/constants');
 const { PORT = 3001 } = process.env;
 const app = express();
 
-app.use(cors({ credentials: true, origin: 'http://localhost:3001', maxAge: 60 }));
+app.use(cors({ credentials: true, origin: ['http://asid.mesto.nomoredomainsmonster.ru/', 'https://asid.mesto.nomoredomainsmonster.ru/', 'http://localhost:3001'], maxAge: 60 }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());

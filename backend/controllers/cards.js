@@ -70,7 +70,6 @@ module.exports.likeCard = (req, res, next) => {
 
 /* снятие лайка */
 module.exports.dislikeCard = (req, res, next) => {
-  console.log('tut', req);
   Card.findByIdAndUpdate(
     req.params.cardId,
     { $pull: { likes: req.user._id } },
