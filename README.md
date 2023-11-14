@@ -9,7 +9,7 @@
 
 ## Ссылки на проект
 
-IP-адрес 51.250.84.88
+IP 51.250.84.88
 
 Frontend https://asid.mesto.nomoredomainsmonster.ru
 
