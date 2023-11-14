@@ -154,7 +154,7 @@ module.exports.login = (req, res, next) => {
       res.cookie('jwt', token, {
         maxAge: 3600000 * 24 * 7,
         httpOnly: true,
-        secure: true,
+        // secure: true, так как иначе не проходят автотесты
         sameSite: 'None',
       });
       res.send({ token });

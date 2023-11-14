@@ -19,6 +19,7 @@ const { PORT = 3000 } = process.env;
 const app = express();
 
 app.use(cors({ origin: ['http://asid.mesto.nomoredomainsmonster.ru', 'https://asid.mesto.nomoredomainsmonster.ru', 'http://localhost:3001'], credentials: true, maxAge: 60 }));
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
@@ -51,6 +52,12 @@ app.delete('/', auth, (req, res, next) => {
   } catch (err) {
     return next(err);
   }
+});
+
+app.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('Сервер сейчас упадёт');
+  }, 0);
 });
 
 app.use('*', (req, res, next) => {
