@@ -58,7 +58,7 @@ class AuthApi {
 }
 
 export const auth = new AuthApi({
-  baseUrl: 'http://api.asid.mesto.nomoredomainsmonster.ru',
+  baseUrl: 'https://api.asid.mesto.nomoredomainsmonster.ru',
   headers: {
     'Content-Type': 'application/json'
   }
