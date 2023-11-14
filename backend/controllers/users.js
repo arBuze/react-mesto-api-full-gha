@@ -150,12 +150,6 @@ module.exports.login = (req, res, next) => {
 
   return User.findUserByCredentials(email, password)
     .then((user) => {
-      const {
-        _id,
-        name,
-        about,
-        avatar,
-      } = user;
       const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'secret-key', { expiresIn: '7d' });
       res.cookie('jwt', token, {
         maxAge: 3600000 * 24 * 7,
@@ -163,13 +157,7 @@ module.exports.login = (req, res, next) => {
         secure: true,
         sameSite: 'None',
       });
-      res.send({
-        _id,
-        email,
-        name,
-        about,
-        avatar,
-      });
+      res.send({ token });
     })
     .catch(next);
 };
