@@ -19,7 +19,9 @@ const { PORT = 3000 } = process.env;
 const app = express();
 
 app.use(cors({ origin: ['http://asid.mesto.nomoredomainsmonster.ru', 'https://asid.mesto.nomoredomainsmonster.ru', 'http://localhost:3001'], credentials: true, maxAge: 60 }));
-
+=
+app.use(cors({ credentials: true, origin: ['http://asid.mesto.nomoredomainsmonster.ru', 'https://asid.mesto.nomoredomainsmonster.ru', 'http://localhost:3001'], maxAge: 60 }));
+>>>>>>> 220fe18d4f8d46d2661298b4b3d684acce5d4788
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
@@ -32,13 +34,6 @@ mongoose.connect('mongodb://127.0.0.1:27017/mestodb', {
 
 /* логгер запросов */
 app.use(requestLogger);
-
-/* краш-тест */
-app.get('/crash-test', () => {
-  setTimeout(() => {
-    throw new Error('Сервер сейчас упадёт');
-  }, 0);
-});
 
 /* обработка путей */
 app.post('/signin', validateSignIn, login);
@@ -59,6 +54,12 @@ app.delete('/', auth, (req, res, next) => {
   } catch (err) {
     return next(err);
   }
+});
+
+app.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('Сервер сейчас упадёт');
+  }, 0);
 });
 
 app.use('*', (req, res, next) => {
