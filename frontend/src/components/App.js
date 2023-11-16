@@ -35,7 +35,7 @@ function App() {
   useEffect(() => {
     const token = localStorage.getItem('jwt');
     if(token) {
-      Promise.all([api.getUserInfo(), api.getInitialCards()])
+      Promise.all([api.getUserInfo(token), api.getInitialCards(token)])
         .then(([userData, cardsData]) => {
           setCurrentUser(userData);
           setCards(cardsData);
@@ -50,7 +50,7 @@ function App() {
   useEffect(() => {
     const token = localStorage.getItem('jwt');
     if(token) {
-      auth.checkToken()
+      auth.checkToken(token)
         .then(res => {
           if(res) {
             setLoggedIn(true);
@@ -93,7 +93,7 @@ function App() {
 
   function handleCardLike(card) {
     const isLiked = card.likes.find(user => user === currentUser._id);
-    api.changeLikeCardStatus(card._id, isLiked)
+    api.changeLikeCardStatus(card._id, isLiked, localStorage.getItem('jwt'))
       .then( newCard => {
         setCards(state => state.map((c) => c._id === card._id ? newCard : c));
       })
@@ -107,7 +107,7 @@ function App() {
   }
 
   function handleCardDelete(card) {
-    api.deleteCard(card._id)
+    api.deleteCard(card._id, localStorage.getItem('jwt'))
       .then(() => {
         setCards(cards.filter(item => !(item._id === card._id)));
         closeAllPopups();
@@ -119,7 +119,7 @@ function App() {
 
   /* обработчики сабмитов */
   function handleUpdateUser({name, about}) {
-    api.saveUserInfo(name, about)
+    api.saveUserInfo(name, about, localStorage.getItem('jwt'))
       .then( userData => {
         setCurrentUser(userData);
         closeAllPopups();
@@ -130,7 +130,7 @@ function App() {
   }
 
   function handleUpdateAvatar({avatar}) {
-    api.saveAvatar(avatar)
+    api.saveAvatar(avatar, localStorage.getItem('jwt'))
       .then(userData => {
         setCurrentUser(userData);
         closeAllPopups();
@@ -141,7 +141,7 @@ function App() {
   }
 
   function handleAddPlaceSubmit({name, link}) {
-    api.addNewCard(name, link)
+    api.addNewCard(name, link, localStorage.getItem('jwt'))
       .then( newCard => {
         setCards([...cards, newCard]);
         closeAllPopups();
@@ -170,7 +170,7 @@ function App() {
   function handleSignOut() {
     setLoggedIn(false);
     setUserEmail('');
-    auth.signOut();
+    auth.signOut(localStorage.getItem('jwt'));
     localStorage.removeItem('jwt');
   }
 

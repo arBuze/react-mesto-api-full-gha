@@ -50,12 +50,11 @@ class AuthApi {
       .catch(err => console.log(err))
   }
 
-  signOut() {
+  signOut(token) {
     return fetch(`${this._baseUrl}/signout`, {
       method: 'POST',
-      credentials: 'include',
       headers: {
-        "Authorization": localStorage.getItem('jwt'),
+        "Authorization" : `Bearer ${token}`,
         ...this._headers
       },
     })
@@ -64,11 +63,10 @@ class AuthApi {
       });
   }
 
-  checkToken() {
+  checkToken(token) {
     return fetch(`${this._baseUrl}/users/me`, {
-      credentials: 'include',
       headers: {
-        "Authorization": localStorage.getItem('jwt'),
+        "Authorization" : `Bearer ${token}`,
         ...this._headers
       }
     })
