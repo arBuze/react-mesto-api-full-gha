@@ -11,29 +11,40 @@ class Api {
     return Promise.reject(`Ошибка: ${res.status}`);
   }
 
-  getUserInfo() {
+  getUserInfo(token) {
     return fetch(`${this._baseUrl}/users/me`, {
-      credentials: 'include'
+      credentials: 'include',
+      headers: {
+        "Authorization": token,
+        ...this._headers
+      }
     })
       .then(res => {
         return this._getResponseData(res);
       });
   }
 
-  getInitialCards() {
+  getInitialCards(token) {
     return fetch(`${this._baseUrl}/cards`, {
-      credentials: 'include'
+      credentials: 'include',
+      headers: {
+        "Authorization": token,
+        ...this._headers
+      }
     })
       .then(res => {
         return this._getResponseData(res);
       });
   }
 
-  saveUserInfo(name, about) {
+  saveUserInfo(name, about, token) {
     return fetch(`${this._baseUrl}/users/me`, {
       method: 'PATCH',
       credentials: 'include',
-      headers: this._headers,
+      headers: {
+        "Authorization": token,
+        ...this._headers
+      },
       body: JSON.stringify({
         name,
         about
@@ -44,11 +55,14 @@ class Api {
       });
   }
 
-  saveAvatar(avatar) {
+  saveAvatar(avatar, token) {
     return fetch(`${this._baseUrl}/users/me/avatar`, {
       method: 'PATCH',
       credentials: 'include',
-      headers: this._headers,
+      headers: {
+        "Authorization": token,
+        ...this._headers
+      },
       body: JSON.stringify({
         avatar
       })
@@ -58,11 +72,14 @@ class Api {
       });
   }
 
-  addNewCard(name, link) {
+  addNewCard(name, link, token) {
     return fetch(`${this._baseUrl}/cards`, {
       method: 'POST',
       credentials: 'include',
-      headers: this._headers,
+      headers: {
+        "Authorization": token,
+        ...this._headers
+      },
       body: JSON.stringify({
         name,
         link
@@ -73,33 +90,28 @@ class Api {
       });
   }
 
-  deleteCard(cardId) {
+  deleteCard(cardId, token) {
     return fetch(`${this._baseUrl}/cards/${cardId}`, {
       method: 'DELETE',
       credentials: 'include',
-      headers: this._headers,
+      headers: {
+        "Authorization": token,
+        ...this._headers
+      },
     })
       .then(res => {
         return this._getResponseData(res);
       });
   }
 
-  changeLikeCardStatus(cardId, isLiked) {
+  changeLikeCardStatus(cardId, isLiked,token) {
     return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
       method: isLiked ? 'DELETE' : 'PUT',
       credentials: 'include',
-      headers: this._headers,
-    })
-      .then(res => {
-        return this._getResponseData(res);
-      });
-  }
-
-  signOut() {
-    return fetch(`${this._baseUrl}`, {
-      method: 'DELETE',
-      credentials: 'include',
-      headers: this._headers,
+      headers: {
+        "Authorization": token,
+        ...this._headers
+      },
     })
       .then(res => {
         return this._getResponseData(res);

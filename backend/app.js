@@ -47,7 +47,7 @@ app.post('/signup', validateSignUp, createUser);
 app.use('/users', auth, require('./routes/users'));
 app.use('/cards', auth, require('./routes/cards'));
 
-app.delete('/', auth, (req, res, next) => {
+app.post('/signout', auth, (req, res, next) => {
   try {
     res.clearCookie('jwt', {
       maxAge: 3600000 * 24 * 7,

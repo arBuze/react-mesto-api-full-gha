@@ -4,6 +4,13 @@ class AuthApi {
     this._headers = options.headers;
   }
 
+  _getResponseData(res) {
+    if (res.ok) {
+      return res.json();
+    }
+    return Promise.reject(`Ошибка: ${res.status}`);
+  }
+
   register(email, password) {
     return fetch(`${this._baseUrl}/signup`, {
       method: 'POST',
@@ -14,7 +21,7 @@ class AuthApi {
       })
     })
       .then((response) => {
-        return response.json();
+        return this._getResponseData(response);
       })
       .then((res) => {
         return res;
@@ -25,7 +32,6 @@ class AuthApi {
   authorize(email, password) {
     return fetch(`${this._baseUrl}/signin`, {
       method: 'POST',
-      credentials: 'include',
       headers: this._headers,
       body: JSON.stringify({
         password,
@@ -33,7 +39,7 @@ class AuthApi {
       })
     })
       .then((response) => {
-        return response.json();
+        return this._getResponseData(response);
       })
       .then((data) => {
         if (data){
@@ -44,13 +50,30 @@ class AuthApi {
       .catch(err => console.log(err))
   }
 
-  checkToken() {
+  signOut(token) {
+    return fetch(`${this._baseUrl}/signout`, {
+      method: 'DELETE',
+      credentials: 'include',
+      headers: {
+        "Authorization": token,
+        ...this._headers
+      },
+    })
+      .then(res => {
+        return this._getResponseData(res);
+      });
+  }
+
+  checkToken(token) {
     return fetch(`${this._baseUrl}/users/me`, {
       credentials: 'include',
-      headers: this._headers
+      headers: {
+        "Authorization": token,
+        ...this._headers
+      }
     })
     .then((response) => {
-      return response.json();
+      return this._getResponseData(response);
     })
     .then(data => data)
     .catch(err => console.log(err));

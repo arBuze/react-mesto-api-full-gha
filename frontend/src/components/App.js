@@ -29,13 +29,14 @@ function App() {
   const [currentUser, setCurrentUser] = useState({});
   const [loggedIn, setLoggedIn] = useState(false);
   const [userEmail, setUserEmail] = useState('');
+  const [token, setToken] = useState('');
   const navigate = useNavigate();
 
   /* загрузка данных пользователя и массива карточек */
   useEffect(() => {
-    const token = localStorage.getItem('userId');
-    if(token) {
-      Promise.all([api.getUserInfo(), api.getInitialCards()])
+    const userToken = localStorage.getItem('userId');
+    if(userToken) {
+      Promise.all([api.getUserInfo(token), api.getInitialCards(token)])
         .then(([userData, cardsData]) => {
           setCurrentUser(userData);
           setCards(cardsData);
@@ -48,9 +49,9 @@ function App() {
 
   /* проверка токена */
   useEffect(() => {
-    const token = localStorage.getItem('userId');
-    if(token) {
-      auth.checkToken()
+    const userToken = localStorage.getItem('userId');
+    if(userToken) {
+      auth.checkToken(token)
         .then(res => {
           if(res) {
             setLoggedIn(true);
@@ -93,7 +94,7 @@ function App() {
 
   function handleCardLike(card) {
     const isLiked = card.likes.find(user => user === currentUser._id);
-    api.changeLikeCardStatus(card._id, isLiked)
+    api.changeLikeCardStatus(card._id, isLiked, token)
       .then( newCard => {
         setCards(state => state.map((c) => c._id === card._id ? newCard : c));
       })
@@ -107,7 +108,7 @@ function App() {
   }
 
   function handleCardDelete(card) {
-    api.deleteCard(card._id)
+    api.deleteCard(card._id, token)
       .then(() => {
         setCards(cards.filter(item => !(item._id === card._id)));
         closeAllPopups();
@@ -119,7 +120,7 @@ function App() {
 
   /* обработчики сабмитов */
   function handleUpdateUser({name, about}) {
-    api.saveUserInfo(name, about)
+    api.saveUserInfo(name, about, token)
       .then( userData => {
         setCurrentUser(userData);
         closeAllPopups();
@@ -130,7 +131,7 @@ function App() {
   }
 
   function handleUpdateAvatar({avatar}) {
-    api.saveAvatar(avatar)
+    api.saveAvatar(avatar, token)
       .then(userData => {
         setCurrentUser(userData);
         closeAllPopups();
@@ -141,7 +142,7 @@ function App() {
   }
 
   function handleAddPlaceSubmit({name, link}) {
-    api.addNewCard(name, link)
+    api.addNewCard(name, link, token)
       .then( newCard => {
         setCards([...cards, newCard]);
         closeAllPopups();
@@ -152,8 +153,9 @@ function App() {
   }
 
   /* для авторизации и регистрации */
-  function handleLogin(email) {
+  function handleLogin(email, loginToken) {
     setUserEmail(email);
+    setToken(loginToken);
     setLoggedIn(true);
   }
 
@@ -167,11 +169,12 @@ function App() {
     setIsInfoToolTipOpen(true);
   }
 
-  function handleSignOut() {
+  function handleSignOut(token) {
     setLoggedIn(false);
     setUserEmail('');
+    setToken('');
     localStorage.removeItem('userId');
-    api.signOut();
+    auth.signOut(token);
   }
 
   return (

@@ -23,7 +23,7 @@ function Login(props) {
     auth.authorize(formValue.email, formValue.password)
       .then(data => {
         if (data){
-          props.onLogin(formValue.email);
+          props.onLogin(formValue.email, data.token);
           setFormValue({email: '', password: ''});
           navigate('/', {replace: true});
         }
