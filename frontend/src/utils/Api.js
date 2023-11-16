@@ -13,7 +13,6 @@ class Api {
 
   getUserInfo(token) {
     return fetch(`${this._baseUrl}/users/me`, {
-      credentials: 'include',
       headers: {
         "Authorization" : `Bearer ${token}`,
         ...this._headers
@@ -26,7 +25,6 @@ class Api {
 
   getInitialCards(token) {
     return fetch(`${this._baseUrl}/cards`, {
-      credentials: 'include',
       headers: {
         "Authorization" : `Bearer ${token}`,
         ...this._headers
@@ -40,7 +38,6 @@ class Api {
   saveUserInfo(name, about, token) {
     return fetch(`${this._baseUrl}/users/me`, {
       method: 'PATCH',
-      credentials: 'include',
       headers: {
         "Authorization" : `Bearer ${token}`,
         ...this._headers
@@ -58,7 +55,6 @@ class Api {
   saveAvatar(avatar, token) {
     return fetch(`${this._baseUrl}/users/me/avatar`, {
       method: 'PATCH',
-      credentials: 'include',
       headers: {
         "Authorization" : `Bearer ${token}`,
         ...this._headers
@@ -75,7 +71,6 @@ class Api {
   addNewCard(name, link, token) {
     return fetch(`${this._baseUrl}/cards`, {
       method: 'POST',
-      credentials: 'include',
       headers: {
         "Authorization" : `Bearer ${token}`,
         ...this._headers
@@ -93,7 +88,6 @@ class Api {
   deleteCard(cardId, token) {
     return fetch(`${this._baseUrl}/cards/${cardId}`, {
       method: 'DELETE',
-      credentials: 'include',
       headers: {
         "Authorization" : `Bearer ${token}`,
         ...this._headers
@@ -107,7 +101,6 @@ class Api {
   changeLikeCardStatus(cardId, isLiked, token) {
     return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
       method: isLiked ? 'DELETE' : 'PUT',
-      credentials: 'include',
       headers: {
         "Authorization" : `Bearer ${token}`,
         ...this._headers
