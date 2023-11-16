@@ -11,11 +11,11 @@ class Api {
     return Promise.reject(`Ошибка: ${res.status}`);
   }
 
-  getUserInfo(token) {
+  getUserInfo() {
     return fetch(`${this._baseUrl}/users/me`, {
       credentials: 'include',
       headers: {
-        "Authorization": token,
+        "Authorization": localStorage.getItem('jwt'),
         ...this._headers
       }
     })
@@ -24,11 +24,11 @@ class Api {
       });
   }
 
-  getInitialCards(token) {
+  getInitialCards() {
     return fetch(`${this._baseUrl}/cards`, {
       credentials: 'include',
       headers: {
-        "Authorization": token,
+        "Authorization": localStorage.getItem('jwt'),
         ...this._headers
       }
     })
@@ -37,12 +37,12 @@ class Api {
       });
   }
 
-  saveUserInfo(name, about, token) {
+  saveUserInfo(name, about) {
     return fetch(`${this._baseUrl}/users/me`, {
       method: 'PATCH',
       credentials: 'include',
       headers: {
-        "Authorization": token,
+        "Authorization": localStorage.getItem('jwt'),
         ...this._headers
       },
       body: JSON.stringify({
@@ -55,12 +55,12 @@ class Api {
       });
   }
 
-  saveAvatar(avatar, token) {
+  saveAvatar(avatar) {
     return fetch(`${this._baseUrl}/users/me/avatar`, {
       method: 'PATCH',
       credentials: 'include',
       headers: {
-        "Authorization": token,
+        "Authorization": localStorage.getItem('jwt'),
         ...this._headers
       },
       body: JSON.stringify({
@@ -72,12 +72,12 @@ class Api {
       });
   }
 
-  addNewCard(name, link, token) {
+  addNewCard(name, link) {
     return fetch(`${this._baseUrl}/cards`, {
       method: 'POST',
       credentials: 'include',
       headers: {
-        "Authorization": token,
+        "Authorization": localStorage.getItem('jwt'),
         ...this._headers
       },
       body: JSON.stringify({
@@ -90,12 +90,12 @@ class Api {
       });
   }
 
-  deleteCard(cardId, token) {
+  deleteCard(cardId) {
     return fetch(`${this._baseUrl}/cards/${cardId}`, {
       method: 'DELETE',
       credentials: 'include',
       headers: {
-        "Authorization": token,
+        "Authorization": localStorage.getItem('jwt'),
         ...this._headers
       },
     })
@@ -104,12 +104,12 @@ class Api {
       });
   }
 
-  changeLikeCardStatus(cardId, isLiked,token) {
+  changeLikeCardStatus(cardId, isLiked) {
     return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
       method: isLiked ? 'DELETE' : 'PUT',
       credentials: 'include',
       headers: {
-        "Authorization": token,
+        "Authorization": localStorage.getItem('jwt'),
         ...this._headers
       },
     })
