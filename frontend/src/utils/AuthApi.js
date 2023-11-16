@@ -52,7 +52,7 @@ class AuthApi {
 
   signOut(token) {
     return fetch(`${this._baseUrl}/signout`, {
-      method: 'DELETE',
+      method: 'POST',
       credentials: 'include',
       headers: {
         "Authorization": token,
