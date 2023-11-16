@@ -170,8 +170,8 @@ function App() {
   function handleSignOut() {
     setLoggedIn(false);
     setUserEmail('');
-    localStorage.removeItem('jwt');
     auth.signOut();
+    localStorage.removeItem('jwt');
   }
 
   return (
