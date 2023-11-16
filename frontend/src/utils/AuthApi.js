@@ -43,7 +43,7 @@ class AuthApi {
       })
       .then((data) => {
         if (data){
-          localStorage.setItem('userId', data._id);
+          localStorage.setItem('jwt', data.token);
           return data;
         }
       })

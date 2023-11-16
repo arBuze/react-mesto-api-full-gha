@@ -34,7 +34,7 @@ function App() {
 
   /* загрузка данных пользователя и массива карточек */
   useEffect(() => {
-    const userToken = localStorage.getItem('userId');
+    const userToken = localStorage.getItem('jwt');
     if(userToken) {
       Promise.all([api.getUserInfo(token), api.getInitialCards(token)])
         .then(([userData, cardsData]) => {
@@ -49,7 +49,7 @@ function App() {
 
   /* проверка токена */
   useEffect(() => {
-    const userToken = localStorage.getItem('userId');
+    const userToken = localStorage.getItem('jwt');
     if(userToken) {
       auth.checkToken(token)
         .then(res => {
@@ -60,7 +60,7 @@ function App() {
           }
         })
         .catch(err => {
-          localStorage.removeItem('userId');
+          localStorage.removeItem('jwt');
           console.log(err);
         });
     }
@@ -173,7 +173,7 @@ function App() {
     setLoggedIn(false);
     setUserEmail('');
     setToken('');
-    localStorage.removeItem('userId');
+    localStorage.removeItem('jwt');
     auth.signOut(token);
   }
 
